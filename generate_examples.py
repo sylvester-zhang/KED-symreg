@@ -82,11 +82,10 @@ def generate_potentials(L,maxattractors=3,maxwidth=30):
 
 
 def KED(wfn):
-    """"Equation 2. from "Testing the kinetic energy functional: Kinetic energy density
-        as a density functional, Eunji Sim, Joe Larkin, and Kieron Burke, 2003"""
-    nabla = np.diff(wfn,n=2)
-    nabla.resize(len(nabla)+2) #pad 2 to deal with diff twice
-    return np.array(wfn)*nabla
+    """"There are theoretical reasons why |Psi'(x)|^2 is preferred over |Psi(x)*Psi''(x)| """
+    delt = np.diff(wfn,n=1)
+    delt.resize(len(delt)+1) #pad 2 to deal with diff twice
+    return delt*delt
 
 maxexamples = 20
 for j in range(maxexamples):
