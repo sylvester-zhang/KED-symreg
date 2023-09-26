@@ -17,7 +17,6 @@ import random
 import pickle
 binaries = ["add","sub","mul","div","pow"]
 unaries = ["diff","inte","cos","sin",'tan',"log"]
-symvect = [0 for i in unaries+binaries]
 
 import pickle
 
@@ -53,7 +52,7 @@ def tan(ar):
     return np.tan(ar)
 operations = ["add","mul","inte","diff","sin","exp","log"]
 import random_expressions
-cwd = "/home/randon/Documents/homework/2020/mcgill/rustam/next-project/software/data/"
+cwd = os.getcwd()+"/data/"
 numattractors = 1
 for i in range(numattractors):
     wcwd = cwd+str(i+1)+"/"
@@ -94,8 +93,20 @@ for i in range(numattractors):
         k = random.randint(-1000,1000)/100 #shows up in expr
         expr = expr[0]
         expr = expr.replace("x","wfns[0][0]")
-        transformed = eval(expr)
-        symvectk = unaries+binaries
+        try:
+            transformed = eval(expr)
+        except IndexError as ie:
+            print("hmmmn")
+            if len(wfns[0])==0:
+                os.remove(wcwd+file)
+                print('deleted',file)
+                pass
+        except FloatingPointError as fpe:
+            os.remove(wcwd+file)
+            print(fpe,"deleted",file)
+            
+        symvect = [0 for i in unaries+binaries]
+        symvectk = ['diff', 'inte', 'cos', 'sin', 'tan', 'log', 'add', 'sub', 'mul', 'div', 'pow']
         for idx,k in enumerate(symvectk):
             if k in expr:
                 symvect[idx] = 1
@@ -105,7 +116,7 @@ for i in range(numattractors):
             vector for the transforms used: symvect
             transformed: transformed}
             """
-        data = {"wf":wfns,"symrepV":symrep,"symvect":symvect,"transformed":transformed,"V":v,"E":energies,"KEDs":KEDs}
+        data = {"wf":wfns,"symrepV":symrep,"symvect":symvect,"transformed":transformed,"V":v,"E":energies,"KEDs":KEDs,"transformation":expr}
         with open(cwd+"transforms/"+str(i+1)+"/"+file+".pckl","wb") as f:
             pickle.dump(data,file=f)
     

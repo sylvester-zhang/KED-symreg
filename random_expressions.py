@@ -193,7 +193,7 @@ def create_random_expressions(numsets,types,unaries,binaries,maxops=None):
     for i in range(numsets):
         selected_elements = np.random.randint(0,len(types),size=random.randint(0,len(types)))
         selected_elements = types[selected_elements]
-        #print(selected_elements)
+        print(selected_elements)
         if maxops==None:
             number_of_operations = random.randint(len(selected_elements),2*len(selected_elements))            
         else:

@@ -29,7 +29,7 @@ def normalize(wfn):
     #print(scipy.integrate.simps((wfn/np.sqrt(Ainv))**2))
     return wfn/np.sqrt(Ainv)
 @jit
-def wf_nm(Psi: np.array([np.float]),k2: np.array([np.float]),N:int) -> np.array([np.float]):
+def wf_nm(Psi: np.array([float]),k2: np.array([float]),N:int) -> np.array([float]):
     #k2[x]: g2*(E-V[x])
     for i in range(2,N):
         Psi[i]= (2*(1-(5.0*(dx**2)/12)*l2*k2[i-1])*Psi[i-1] - (1+((1.0*(dx**2))/12)*l2*k2[i-2])*Psi[i-2])/(1+((dx**2)/12)*l2*k2[i]) 
@@ -87,7 +87,7 @@ def KED(wfn):
     delt.resize(len(delt)+1) #pad 2 to deal with diff twice
     return delt*delt
 
-maxexamples = 20
+maxexamples = 1000
 for j in range(maxexamples):
   pot,symrep,minimae = generate_potentials(L*0.5)
   levels = []
