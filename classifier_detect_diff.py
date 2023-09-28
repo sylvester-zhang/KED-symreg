@@ -36,9 +36,15 @@ For the CNN: each input is 2000 timesteps (wfn+transform), with 1 signal (y(x))
 
 model = keras.Sequential()
 model.add(layers.Dense(2000,input_shape=(2000,), name="input"))
-model.add(layers.Dense(2000, name="dense0",activation="relu"))
+model.add(layers.Reshape( (2000,1),input_shape=(2000,) ) )
+model.add(layers.Conv1D(filters=32,kernel_size=50,activation="relu"))
+model.add(layers.Conv1D(filters=32,kernel_size=50,activation="relu"))
+model.add(tf.keras.layers.AveragePooling1D(
+    pool_size=5, strides=None, padding="valid", data_format="channels_last",
+)
+)
+model.add(layers.Flatten())
 model.add(layers.Dense(2000, name="dense1",activation="relu"))
-model.add(layers.Dense(2000, name="dense2",activation="relu"))
 model.add(layers.Dense(1,    name="dense3",activation='sigmoid'))
 
 
